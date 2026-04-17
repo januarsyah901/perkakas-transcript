@@ -1,9 +1,10 @@
 import { extractVideoId, fetchCaptions } from '../services/youtubeService.js';
 import { downloadAudio } from '../services/audioService.js';
 import { transcribeAudio } from '../services/assemblyService.js';
+import { getVideoMetadata } from '../services/youtubeV3Service.js';
 
 export default async (req, res) => {
-  const { url } = req.body;
+  const { url, useV3 = false } = req.body;
 
   if (!url) {
     return res.status(400).json({ error: true, message: 'YouTube URL is required' });
@@ -17,13 +18,22 @@ export default async (req, res) => {
   }
 
   try {
-    // 2. Try fetching captions from YouTube
+    let metadata = null;
+    if (useV3) {
+      metadata = await getVideoMetadata(videoId);
+      console.log(`Fetched metadata via V3 for ${videoId}:`, metadata?.title);
+    }
+
+    // 2. Try fetching captions from YouTube (Scraping method)
+    // We still use this because V3 API for caption content is restricted
     const captionResult = await fetchCaptions(videoId);
 
     if (captionResult.hasCaptions) {
       return res.json({
-        source: 'youtube',
+        source: useV3 ? 'youtube-v3' : 'youtube',
         videoId,
+        title: metadata?.title || 'Unknown Video',
+        channel: metadata?.channelTitle || 'Unknown Channel',
         fullText: captionResult.segments.map(s => s.text).join(' '),
         segments: captionResult.segments
       });
@@ -37,6 +47,8 @@ export default async (req, res) => {
       return res.json({
         source: 'assemblyai',
         videoId,
+        title: metadata?.title || 'Unknown Video',
+        channel: metadata?.channelTitle || 'Unknown Channel',
         fullText: transcription.fullText,
         segments: transcription.segments
       });

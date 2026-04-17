@@ -12,7 +12,7 @@ export async function downloadAudio(videoId) {
   const url = `https://www.youtube.com/watch?v=${videoId}`;
   const outputPath = `/tmp/${videoId}.mp3`;
   
-  const command = `yt-dlp -x --audio-format mp3 --audio-quality 5 -o "/tmp/${videoId}.%(ext)s" "${url}"`;
+  const command = `export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH" && yt-dlp -x --audio-format mp3 --audio-quality 5 -o "/tmp/${videoId}.%(ext)s" "${url}"`;
   
   try {
     await execPromise(command);

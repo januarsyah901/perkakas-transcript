@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const UrlInput = ({ onSubmit, isLoading }) => {
+const UrlInput = ({ onSubmit, isLoading, useV3, setUseV3 }) => {
   const [value, setValue] = useState('');
   const [error, setError] = useState('');
 
@@ -32,7 +32,7 @@ const UrlInput = ({ onSubmit, isLoading }) => {
               if (error) setError('');
             }}
             disabled={isLoading}
-            placeholder="Paste YouTube Link (e.g., https://youtube.com/watch?v=...)"
+            placeholder="Paste YouTube Link..."
             className={`w-full pl-14 pr-32 py-5 bg-white border-2 rounded-2xl text-lg font-medium shadow-lg transition-all outline-none 
               ${error ? 'border-red-300 focus:border-red-500' : 'border-gray-100 focus:border-blue-500 focus:shadow-blue-100'}`}
           />
@@ -44,14 +44,28 @@ const UrlInput = ({ onSubmit, isLoading }) => {
             {isLoading ? '...' : 'Transcribe'}
           </button>
         </div>
-        {error && (
-          <div className="absolute -bottom-8 left-4 flex items-center gap-1 text-red-500 text-sm font-semibold animate-slide-up">
-             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-            </svg>
-            {error}
+        
+        <div className="flex items-center justify-between mt-4 px-2">
+          <div className="flex items-center gap-3">
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input 
+                type="checkbox" 
+                className="sr-only peer" 
+                checked={useV3}
+                onChange={() => setUseV3(!useV3)}
+              />
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+            </label>
+            <span className="text-sm font-semibold text-gray-600">
+              {useV3 ? 'Official YouTube API (v3)' : 'Scraping Mode (Default)'}
+            </span>
           </div>
-        )}
+          {error && (
+            <div className="flex items-center gap-1 text-red-500 text-sm font-semibold animate-slide-up">
+              {error}
+            </div>
+          )}
+        </div>
       </form>
     </div>
   );
