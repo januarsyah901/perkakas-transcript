@@ -2,6 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    color: #0f172a;
+    background-color: #f8fafc;
+  }
+
+  html {
+    font-family: "Atkinson Hyperlegible", "Source Sans 3", "Noto Sans", "Segoe UI", sans-serif;
+    line-height: 1.5;
+  }
+
+  body {
+    margin: 0;
+    color: #0f172a;
+    background-color: #f8fafc;
+  }
+
+  :focus-visible {
+    outline: 3px solid #1d4ed8;
+    outline-offset: 2px;
+  }
+}
+
 @layer utilities {
   .animate-progress {
     animation: progress 2s infinite linear;
@@ -19,4 +42,15 @@
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

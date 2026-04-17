@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3031:3031"
+    environment:
+      - PORT=3031
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3032:3032"
+    environment:
+      - VITE_PORT=3032
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - server
+    restart: unless-stopped
