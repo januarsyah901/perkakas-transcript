@@ -1,5 +1,15 @@
 # Perkakas YT - Release Notes
 
+## Version 1.3.0 - 2026-04-17
+
+**MINOR** Release
+
+Add Docker support and improve UI accessibility
+
+---
+
+
+
 ## Version 1.2.0 - 2026-04-17
 
 **MINOR** Release

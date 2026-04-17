@@ -2,6 +2,15 @@
 
 Semua perubahan penting di proyek ini akan didokumentasikan di file ini.
 
+## [1.3.0] - 2026-04-17
+
+### Changes
+- Add Docker support and improve UI accessibility
+
+
+
+Semua perubahan penting di proyek ini akan didokumentasikan di file ini.
+
 ## [1.2.0] - 2026-04-17
 
 ### Changes
