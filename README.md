@@ -1,81 +1,170 @@
 # Perkakas YT
 
-Tools untuk transkripsi YouTube dengan AI.
+**YouTube Transcript Extractor & Converter**
+
+A powerful and easy-to-use tool for extracting, processing, and converting YouTube video transcripts into multiple formats. Built with Node.js backend and modern React frontend.
+
+## Features
+
+- 🎯 Extract transcripts directly from YouTube videos
+- 🔄 Support for multiple output formats (TXT, SRT, JSON, VTT)
+- ⚡ Fast processing with AI-powered transcription
+- 🎨 Modern, user-friendly web interface
+- 📱 Responsive design for desktop and mobile
+- 🔖 Playlist support for batch processing
+- 📊 Transcript viewer with timestamp navigation
+- 💾 Export in multiple formats
+
+## Quick Start
+
+### Prerequisites
+- Node.js 16+
+- npm or yarn
+
+### Installation
+
+```bash
+git clone https://github.com/januarsyah901/perkakas-transcript.git
+cd perkakas-transcript
+npm install
+```
+
+### Running the Application
+
+**Development Mode** (both client and server):
+```bash
+npm run dev
+```
+
+The application will be available at:
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:3000`
+
+## Project Structure
+
+```
+perkakas-yt/
+├── client/          # React frontend application
+├── server/          # Node.js backend server
+├── .scripts/        # Utility scripts including versioning
+├── package.json     # Root package configuration
+└── README.md        # This file
+```
 
 ## Versioning & Release Management
 
-Proyek ini menggunakan sistem versioning otomatis yang terintegrasi dengan git.
+This project uses an automated versioning system integrated with git.
 
-### Command Versioning
+### Version Commands
 
-Tersedia 3 command untuk versioning:
+Three commands are available for versioning:
 
 #### 1. Major Version (X.0.0)
-Untuk perubahan besar yang tidak backward compatible.
+For large changes that break backward compatibility.
 ```bash
-npm run version:major -- "Deskripsi perubahan besar"
+npm run version:major -- "Description of breaking change"
 ```
 
 #### 2. Minor Version (0.X.0)
-Untuk fitur baru yang backward compatible.
+For new features that maintain backward compatibility.
 ```bash
-npm run version:minor -- "Deskripsi fitur baru"
+npm run version:minor -- "Description of new feature"
 ```
 
 #### 3. Patch Version (0.0.X)
-Untuk bug fixes dan improvement kecil.
+For bug fixes and minor improvements.
 ```bash
-npm run version:patch -- "Deskripsi fix"
+npm run version:patch -- "Description of fix"
 ```
 
-### Contoh Penggunaan
+### Usage Examples
 
 ```bash
-# Release bug fix v1.0.1
+# Release bug fix v1.1.1
 npm run version:patch -- "Fix: transcript parsing issue"
 
-# Release fitur baru v1.1.0
+# Release new feature v1.2.0
 npm run version:minor -- "Add: support for playlist transcription"
 
 # Release breaking change v2.0.0
 npm run version:major -- "Refactor: new API structure for better performance"
 ```
 
-### Apa yang dilakukan secara otomatis?
+### What Happens Automatically
 
-Setiap command versioning akan:
-1. ✅ Update version di `package.json`
-2. ✅ Create entry di `CHANGELOG.md`
-3. ✅ Create release note di `RELEASES.md`
-4. ✅ Commit perubahan dengan git
-5. ✅ Create git tag (v1.0.1, v1.1.0, dst)
+Each versioning command will:
+1. ✅ Update version in `package.json`
+2. ✅ Create entry in `CHANGELOG.md`
+3. ✅ Create release note in `RELEASES.md`
+4. ✅ Commit changes with git
+5. ✅ Create git tag (v1.0.1, v1.1.0, etc.)
 
-### Push ke Repository
+### Pushing to Repository
 
-Setelah menjalankan command versioning, push perubahan ke repository:
+After running a versioning command, push changes to the repository:
 
 ```bash
-# Push commits dan tags
+# Push commits and tags
 git push origin main --tags
 ```
 
-Atau jika hanya push tanpa tags:
+Or push only commits without tags:
 ```bash
 git push origin main
 ```
 
-### Melihat Release History
+### Viewing Release History
 
-- **CHANGELOG.md** - Detailed changelog dengan tanggal
-- **RELEASES.md** - Release notes yang lebih readable
+- **CHANGELOG.md** - Detailed changelog with dates
+- **RELEASES.md** - User-friendly release notes
 
-### Current Version
+### Check Current Version
 
-Version saat ini dapat dilihat di `package.json` atau dengan command:
+View the current version in `package.json` or run:
 ```bash
 npm pkg get version
 ```
 
+## Technologies Used
+
+### Frontend
+- **React 18** - UI library
+- **Vite** - Build tool and dev server
+- **Tailwind CSS** - Styling framework
+- **JavaScript ES6+** - Latest JavaScript features
+
+### Backend
+- **Node.js** - Runtime environment
+- **Express** - Web framework (if applicable)
+- **JavaScript** - Server-side language
+
+### DevTools
+- **Concurrently** - Run multiple commands simultaneously
+- **ESLint** - Code quality tool
+- **PostCSS** - CSS processing
+
+## Contributing
+
+We welcome contributions! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes using the versioning system
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the ISC License.
+
+## Support
+
+For issues and questions, please visit:
+- **GitHub Issues**: [Create an issue](https://github.com/januarsyah901/perkakas-transcript/issues)
+- **Project Repository**: [Perkakas YT](https://github.com/januarsyah901/perkakas-transcript)
+
 ---
 
-**Setup awal sudah selesai!** Mulai gunakan command versioning di atas untuk mengelola release project.
+**Ready to start?** Clone the repository and run `npm run dev` to get started!
+
+Current Version: **v1.1.0** | Last Updated: 2026-04-17
