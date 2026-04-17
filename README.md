@@ -1,170 +1,373 @@
-# Perkakas YT
+# Perkakas YT - YouTube Transcript Extractor
 
-**YouTube Transcript Extractor & Converter**
+**Perkakas YT** is a powerful, user-friendly web application that extracts transcripts from YouTube videos using advanced AI technology. Whether you need captions or audio-based transcripts, this tool handles it all with ease.
 
-A powerful and easy-to-use tool for extracting, processing, and converting YouTube video transcripts into multiple formats. Built with Node.js backend and modern React frontend.
+## 🎯 What This Project Does
 
-## Features
+Perkakas YT automates the process of getting accurate transcripts from YouTube videos. Instead of manually watching videos or searching for captions, simply paste a YouTube URL and get instant, high-quality transcripts in multiple formats.
 
-- 🎯 Extract transcripts directly from YouTube videos
-- 🔄 Support for multiple output formats (TXT, SRT, JSON, VTT)
-- ⚡ Fast processing with AI-powered transcription
-- 🎨 Modern, user-friendly web interface
-- 📱 Responsive design for desktop and mobile
-- 🔖 Playlist support for batch processing
-- 📊 Transcript viewer with timestamp navigation
-- 💾 Export in multiple formats
+### Key Capabilities
 
-## Quick Start
+- **YouTube Transcript Extraction** - Automatically fetch video captions when available
+- **AI-Powered Transcription** - Use AssemblyAI for accurate audio-based transcription
+- **Multiple Export Formats** - Download transcripts as:
+  - `.txt` - Plain text format
+  - `.srt` - SubRip subtitle format
+  - `.json` - JSON data format
+  - `.vtt` - WebVTT subtitle format
+- **Interactive Viewer** - Browse transcripts with timestamp-based navigation
+- **Real-time Progress Tracking** - See the transcription status in real-time
 
-### Prerequisites
-- Node.js 16+
-- npm or yarn
+## 🏗️ Project Architecture
 
-### Installation
+This is a **full-stack web application** with separate client and server components:
+
+```
+perkakas-yt/
+├── client/              # React Frontend (Port 5173)
+│   ├── src/
+│   │   ├── components/  # React components
+│   │   ├── utils/       # Utility functions (formatting, etc.)
+│   │   └── App.jsx      # Main application component
+│   └── package.json
+│
+├── server/              # Node.js Backend (Port 3001)
+│   ├── routes/          # API endpoints
+│   ├── services/        # Business logic
+│   ├── index.js         # Express server setup
+│   └── package.json
+│
+└── .scripts/            # Utility scripts (versioning)
+```
+
+### Frontend (React)
+- **Framework**: React 19 with Vite
+- **Styling**: Tailwind CSS for modern, responsive UI
+- **HTTP Client**: Axios for API communication
+- **Components**:
+  - `UrlInput` - YouTube URL input field
+  - `ProgressBar` - Transcription progress indicator
+  - `TranscriptViewer` - Display and interact with transcripts
+  - `ExportButtons` - Download in multiple formats
+
+### Backend (Node.js + Express)
+- **Framework**: Express.js for REST API
+- **Transcript Service**: 
+  - **YouTube Captions**: `youtube-transcript` library
+  - **Audio Transcription**: AssemblyAI API
+- **Utilities**: CORS, UUID for session management, Dotenv for configuration
+
+## 📋 Prerequisites
+
+Before you start, make sure you have:
+
+- **Node.js** (v16 or higher)
+- **npm** or **yarn**
+- **yt-dlp** (for downloading video audio)
+  ```bash
+  pip install yt-dlp
+  ```
+- **AssemblyAI API Key** (sign up at [AssemblyAI](https://www.assemblyai.com/))
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/januarsyah901/perkakas-transcript.git
 cd perkakas-transcript
+```
+
+### 2. Install Dependencies
+
+Install root-level dependencies:
+```bash
 npm install
 ```
 
-### Running the Application
+Dependencies for client and server are defined in their respective `package.json` files and will be installed automatically.
 
-**Development Mode** (both client and server):
+### 3. Set Up Environment Variables
+
+Create a `.env` file in the root directory with:
+
+```env
+# Server Configuration
+PORT=3001
+
+# AssemblyAI API Key (get from https://www.assemblyai.com/)
+ASSEMBLYAI_API_KEY=your_api_key_here
+```
+
+### 4. Start the Application
+
+**Development Mode** (runs both frontend and backend concurrently):
+
 ```bash
 npm run dev
 ```
 
-The application will be available at:
-- Frontend: `http://localhost:5173`
-- Backend: `http://localhost:3000`
+This will start:
+- **Frontend**: http://localhost:5173
+- **Backend**: http://localhost:3001
 
-## Project Structure
+### 5. Use the Application
+
+1. Open http://localhost:5173 in your browser
+2. Paste a YouTube URL in the input field
+3. Click "Get Transcript"
+4. Wait for the transcription to complete
+5. View, interact with, or export the transcript
+
+## 💻 How It Works
+
+### Workflow
 
 ```
-perkakas-yt/
-├── client/          # React frontend application
-├── server/          # Node.js backend server
-├── .scripts/        # Utility scripts including versioning
-├── package.json     # Root package configuration
-└── README.md        # This file
+User Input (YouTube URL)
+         ↓
+   API Request
+         ↓
+Backend Processing
+  ├─ Try: Get YouTube Captions
+  │  └─ If available → Return captions
+  │
+  └─ If no captions: Download audio + Transcribe with AssemblyAI
+         ↓
+   Return Transcript
+         ↓
+Frontend Display
+  ├─ Show transcript text
+  ├─ Display timestamps
+  └─ Provide export options
 ```
 
-## Versioning & Release Management
+### API Endpoint
 
-This project uses an automated versioning system integrated with git.
+**POST** `/api/transcript`
 
-### Version Commands
-
-Three commands are available for versioning:
-
-#### 1. Major Version (X.0.0)
-For large changes that break backward compatibility.
-```bash
-npm run version:major -- "Description of breaking change"
+**Request Body:**
+```json
+{
+  "url": "https://www.youtube.com/watch?v=VIDEO_ID"
+}
 ```
 
-#### 2. Minor Version (0.X.0)
-For new features that maintain backward compatibility.
-```bash
-npm run version:minor -- "Description of new feature"
+**Response:**
+```json
+{
+  "title": "Video Title",
+  "transcript": "Full transcript text...",
+  "segments": [
+    {
+      "text": "Segment text",
+      "start": 0,
+      "end": 5000
+    }
+  ]
+}
 ```
 
-#### 3. Patch Version (0.0.X)
-For bug fixes and minor improvements.
-```bash
-npm run version:patch -- "Description of fix"
-```
+## 📝 Usage Examples
 
-### Usage Examples
+### Via Web Interface
 
-```bash
-# Release bug fix v1.1.1
-npm run version:patch -- "Fix: transcript parsing issue"
+1. **Extract YouTube Captions**
+   - Paste any YouTube URL with existing captions
+   - Click "Get Transcript"
+   - Download in your preferred format
 
-# Release new feature v1.2.0
-npm run version:minor -- "Add: support for playlist transcription"
+2. **Transcribe from Audio**
+   - For videos without captions, the app will transcribe the audio
+   - Processing time depends on video length
+   - Requires AssemblyAI API key
 
-# Release breaking change v2.0.0
-npm run version:major -- "Refactor: new API structure for better performance"
-```
+3. **Export Options**
+   - **TXT**: Plain text for easy reading
+   - **SRT**: For video subtitles
+   - **JSON**: For programmatic use
+   - **VTT**: Web Video Text Tracks format
 
-### What Happens Automatically
+### Command Line
 
-Each versioning command will:
-1. ✅ Update version in `package.json`
-2. ✅ Create entry in `CHANGELOG.md`
-3. ✅ Create release note in `RELEASES.md`
-4. ✅ Commit changes with git
-5. ✅ Create git tag (v1.0.1, v1.1.0, etc.)
-
-### Pushing to Repository
-
-After running a versioning command, push changes to the repository:
-
-```bash
-# Push commits and tags
-git push origin main --tags
-```
-
-Or push only commits without tags:
-```bash
-git push origin main
-```
-
-### Viewing Release History
-
-- **CHANGELOG.md** - Detailed changelog with dates
-- **RELEASES.md** - User-friendly release notes
-
-### Check Current Version
-
-View the current version in `package.json` or run:
+Check your application version:
 ```bash
 npm pkg get version
 ```
 
-## Technologies Used
+## 🔄 Versioning & Release Management
 
-### Frontend
-- **React 18** - UI library
-- **Vite** - Build tool and dev server
-- **Tailwind CSS** - Styling framework
-- **JavaScript ES6+** - Latest JavaScript features
+This project uses automated versioning integrated with Git. For detailed instructions, see the [Versioning Guide](#versioning--release-management).
 
-### Backend
-- **Node.js** - Runtime environment
-- **Express** - Web framework (if applicable)
-- **JavaScript** - Server-side language
+### Quick Commands
 
-### DevTools
-- **Concurrently** - Run multiple commands simultaneously
-- **ESLint** - Code quality tool
-- **PostCSS** - CSS processing
+```bash
+# Bug fix (patch)
+npm run version:patch -- "Fix: description"
 
-## Contributing
+# New feature (minor)
+npm run version:minor -- "Add: description"
 
-We welcome contributions! Please feel free to submit a Pull Request.
+# Breaking change (major)
+npm run version:major -- "Refactor: description"
+```
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes using the versioning system
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+After versioning, push to GitHub:
+```bash
+git push origin main --tags
+```
 
-## License
+## 🛠️ Development
 
-This project is licensed under the ISC License.
+### Project Scripts
 
-## Support
+```bash
+# Start development servers (frontend + backend)
+npm run dev
 
-For issues and questions, please visit:
-- **GitHub Issues**: [Create an issue](https://github.com/januarsyah901/perkakas-transcript/issues)
-- **Project Repository**: [Perkakas YT](https://github.com/januarsyah901/perkakas-transcript)
+# Version management
+npm run version:major -- "Description"
+npm run version:minor -- "Description"
+npm run version:patch -- "Description"
+
+# Frontend only
+cd client
+npm run dev     # Development
+npm run build   # Production build
+npm run lint    # Check code quality
+
+# Backend only
+cd server
+npm run dev     # Watch mode
+```
+
+### Folder Structure Explained
+
+```
+client/src/
+├── App.jsx              # Main app component
+├── components/
+│   ├── UrlInput.jsx     # URL input form
+│   ├── ProgressBar.jsx  # Loading indicator
+│   ├── TranscriptViewer.jsx # Display results
+│   └── ExportButtons.jsx    # Download options
+├── utils/
+│   └── srtFormatter.js  # Convert to SRT format
+└── App.css              # Global styles
+
+server/
+├── index.js             # Express setup
+├── routes/
+│   └── transcript.js    # API endpoints
+└── services/
+    ├── youtubeService.js    # Caption extraction
+    └── transcriptionService.js # AssemblyAI integration
+```
+
+## 🔐 Security Notes
+
+- **Never commit** your `.env` file with API keys
+- Keep your **AssemblyAI API key private**
+- Use environment variables for sensitive data
+- CORS is configured for local development only
+
+## 🐛 Troubleshooting
+
+### "Module not found" error
+```bash
+# Reinstall dependencies
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### "Cannot find python/yt-dlp"
+```bash
+# Install yt-dlp globally
+pip install yt-dlp
+which yt-dlp  # Verify installation
+```
+
+### "AssemblyAI API Key invalid"
+- Check your `.env` file
+- Verify API key at https://www.assemblyai.com/
+- Ensure no extra spaces or quotes in the key
+
+### CORS errors
+- Ensure backend is running on port 3001
+- Check frontend is trying to connect to correct URL
+- Verify CORS is enabled in `server/index.js`
+
+## 📚 Technology Stack
+
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| Frontend | React 19 + Vite | User interface |
+| Styling | Tailwind CSS | Modern, responsive UI |
+| Backend | Express.js | REST API server |
+| Transcription | AssemblyAI | AI-powered audio transcription |
+| Captions | youtube-transcript | YouTube caption extraction |
+| Build Tool | Vite | Fast bundling and HMR |
+| HTTP | Axios | API communication |
+
+## 📄 Current Version
+
+**Version**: 1.1.0  
+**Last Updated**: 2026-04-17
+
+See [CHANGELOG.md](./CHANGELOG.md) for version history and [RELEASES.md](./RELEASES.md) for release notes.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b feature/your-feature`
+3. **Make changes** and test thoroughly
+4. **Commit** using the versioning system (see above)
+5. **Push** to your fork
+6. **Create** a Pull Request
+
+### Development Guidelines
+
+- Follow the existing code style
+- Add comments for complex logic
+- Test your changes before submitting
+- Update documentation if needed
+
+## 📝 License
+
+This project is licensed under the **ISC License** - see [LICENSE](./LICENSE) for details.
+
+## 🆘 Support & Issues
+
+Found a bug or have a question?
+
+- **Report Issues**: [GitHub Issues](https://github.com/januarsyah901/perkakas-transcript/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/januarsyah901/perkakas-transcript/discussions)
+- **Repository**: [Perkakas YT on GitHub](https://github.com/januarsyah901/perkakas-transcript)
 
 ---
 
-**Ready to start?** Clone the repository and run `npm run dev` to get started!
+## 🎉 Quick Start Recap
 
-Current Version: **v1.1.0** | Last Updated: 2026-04-17
+```bash
+# 1. Clone and install
+git clone https://github.com/januarsyah901/perkakas-transcript.git
+cd perkakas-transcript
+npm install
+
+# 2. Set up environment
+echo 'ASSEMBLYAI_API_KEY=your_key_here' > .env
+
+# 3. Start application
+npm run dev
+
+# 4. Open browser
+# Frontend: http://localhost:5173
+# Backend: http://localhost:3001
+
+# 5. Use it!
+# Paste YouTube URL and get transcript
+```
+
+**Ready to transcribe?** Start with `npm run dev` and enjoy! 🚀
